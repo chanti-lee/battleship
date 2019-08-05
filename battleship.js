@@ -47,6 +47,41 @@ var model = {
 		{ locations: ["24", "34", "44"], hits: ["", "", ""] },
 		{ locations: ["10", "11", "12"], hits: ["", "", ""]}],
 
+	generateShip: function() {
+		var direction = MAth.floor(Math.random() * 2);
+		var row;
+		var col;
+		if (direction === 1) {
+			row = Math.floor(Math.random() * this.boardSize);
+			col = Math.floor(Math.random() * (this.boardSize - (this.shipLength) + 1));
+		} else {
+			row = Math.floor(Math.random() * (this.boardSize - (this.shipLength) + 1));
+			col = Math.floor(Math.random() * this.boardSize);
+		}
+
+		var newShipLocations = [];
+		for (var = 0; i < this.shipLength; i++) {
+			if (direction === 1) {
+				newShipLocations.push(row + "" + (col + i));
+			}
+			else {
+				newShipLocations.push((row + i) + "" + col);
+			}
+		}
+		return newShipLocations;
+	},
+	
+	generateShipLocations: function() {
+		var locations;
+		for (var i = 0; i < this.numShips; i++) {
+			do {
+				locations = this.generateShip();
+			} while (this.collision(locations));
+			this.ships[i].locations = locations;
+			}
+		}
+	},
+
 	fire: function(guess) {
 		for (var i = 0; i < this.numShips; i++) {
 			var ship = this.ships[i];
